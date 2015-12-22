@@ -1,0 +1,24 @@
+
+AC_INIT(subprocess, 0.0.0)
+
+AC_CONFIG_MACRO_DIR(m4)
+
+AM_INIT_AUTOMAKE([-Wall -Werror -Wno-portability foreign subdir-objects])
+
+AC_PROG_CXX
+AC_PROG_LIBTOOL
+
+AC_SUBST(AM_CXXFLAGS)
+AC_SUBST(AM_LDFLAGS)
+
+# https://github.com/tsuna/boost.m4
+BOOST_REQUIRE
+BOOST_TEST
+
+BOOST_CPPFLAGS="$BOOST_CPPFLAGS -DBOOST_ALL_DYN_LINK"
+
+AM_CXXFLAGS="$AM_CXXFLAGS -Wall -Wextra -std=c++11"
+AM_LDFLAGS="$AM_LDFLAGS -rdynamic"
+
+AC_CONFIG_FILES([Makefile])
+AC_OUTPUT
