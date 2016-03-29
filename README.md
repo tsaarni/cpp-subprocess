@@ -45,7 +45,7 @@ resulting output is the reverse sorted contents of the
 
 int
 main(int argc, char *argv[])
-{  
+{
     subprocess::popen cmd("sort", {"-r"});
 
     std::ifstream file("inputfile.txt");
@@ -63,9 +63,38 @@ main(int argc, char *argv[])
 }
 ```
 
+Shell-like pipes can be constructed between output and intput of two
+commands.  Following example executes equivalent of `cat | sort -r`
+for input containing three lines: "a", "b" and "c".  The result read
+from the output stream contains the intput in reversed order.
+
+```C++
+#include <fstream>
+#include "subprocess.hpp"
+
+int
+main(int argc, char *argv[])
+{
+    subprocess::popen sort_cmd("sort", {"-r"});
+    subprocess::popen cat_cmd("cat", {}, sort_cmd.stdin());
+
+    cat_cmd.stdin() << "a" << std::endl;
+    cat_cmd.stdin() << "b" << std::endl;
+    cat_cmd.stdin() << "c" << std::endl;
+    cat_cmd.close();
+
+    std::cout << sort_cmd.stdout().rdbuf();
+
+    return 0;
+}
+```
 
 
 ### Installation
 
 The library consists of single file `include/subprocess.hpp`.  Copy
 the file into your own project or e.g. into `/usr/local/include/`.
+
+Use `-std=c++11` when compiling the code.
+
+Unit test suite depends on Boost Test Library.

@@ -24,14 +24,11 @@ class popen
 {   
 public:
 
-    popen(const std::string& cmd, std::vector<std::string> argv, std::ostream& pipe_stdout)
+    popen(const std::string& cmd, std::vector<std::string> argv)
         : in_filebuf(nullptr), out_filebuf(nullptr), err_filebuf(nullptr), in_stream(nullptr), out_stream(nullptr), err_stream(nullptr)
     {
-        auto filebuf = dynamic_cast<__gnu_cxx::stdio_filebuf<char>*>(pipe_stdout.rdbuf());
-        out_pipe[READ]  = -1;
-        out_pipe[WRITE] = filebuf->fd();
-        
-        if (pipe(in_pipe) == -1 ||
+        if (pipe(in_pipe)  == -1 ||
+            pipe(out_pipe) == -1 ||
             pipe(err_pipe) == -1 )
         {
             throw std::system_error(errno, std::system_category());
@@ -39,12 +36,15 @@ public:
 
         run(cmd, argv);
     }
-    
-    popen(const std::string& cmd, std::vector<std::string> argv)
+
+    popen(const std::string& cmd, std::vector<std::string> argv, std::ostream& pipe_stdout)
         : in_filebuf(nullptr), out_filebuf(nullptr), err_filebuf(nullptr), in_stream(nullptr), out_stream(nullptr), err_stream(nullptr)
     {
-        if (pipe(in_pipe)  == -1 ||
-            pipe(out_pipe) == -1 ||
+        auto filebuf = dynamic_cast<__gnu_cxx::stdio_filebuf<char>*>(pipe_stdout.rdbuf());
+        out_pipe[READ]  = -1;
+        out_pipe[WRITE] = filebuf->fd();
+
+        if (pipe(in_pipe) == -1 ||
             pipe(err_pipe) == -1 )
         {
             throw std::system_error(errno, std::system_category());
