@@ -63,10 +63,10 @@ main(int argc, char *argv[])
 }
 ```
 
-Shell-like pipes can be constructed between output and intput of two
+Shell-like pipes can be constructed between output and input of two
 commands.  Following example executes equivalent of `cat | sort -r`
 for input containing three lines: "a", "b" and "c".  The result read
-from the output stream contains the intput in reversed order.
+from the output stream contains the input in reversed order.
 
 ```C++
 #include <fstream>
