@@ -6,6 +6,8 @@
 // Copyright (c) 2015 Tero Saarni
 //
 
+#pragma once
+
 #include <string>
 #include <vector>
 #include <iostream>
