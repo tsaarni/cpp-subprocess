@@ -11,7 +11,8 @@ the child process are associated to iostream objects which can be
 accessed by the parent process.
 
 The library uses GNU extension `__gnu_cxx::stdio_filebuf` to construct
-iostream objects from file descriptors.  It works on gcc and clang.
+iostream objects from file descriptors.  It works on gcc and it can
+work also with clang as long as GNU's C++ standard library is used.
 
 
 ### Tutorial
