@@ -90,6 +90,35 @@ main(int argc, char *argv[])
 }
 ```
 
+To write to and read from a subprocess for multiple times, use
+`std::getline()` or some other way to read without blocking:
+
+```C++
+#include <string>
+#include "subprocess.hpp"
+
+int
+main(int argc, char *argv[])
+{
+    std::string buf;
+
+    subprocess::popen cat_cmd("cat", {});
+
+    cat_cmd.stdin() << "a" << std::endl;
+    std::getline(cat_cmd.stdout(), buf);
+    std::cout << buf << std::endl;
+
+    cat_cmd.stdin() << "b" << std::endl;
+    std::getline(cat_cmd.stdout(), buf);
+    std::cout << buf << std::endl;
+
+    cat_cmd.stdin() << "c" << std::endl;
+    std::getline(cat_cmd.stdout(), buf);
+    std::cout << buf << std::endl;
+
+    return 0;
+}
+```
 
 ### Installation
 
