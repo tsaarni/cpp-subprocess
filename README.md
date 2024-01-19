@@ -27,8 +27,8 @@ int
 main(int argc, char *argv[])
 {
     subprocess::popen cmd("ls", {});
-    std::cout << cmd.stdout().rdbuf();
-    
+    std::cout << cmd.out().rdbuf();
+
     return 0;
 }
 ```
@@ -51,15 +51,15 @@ main(int argc, char *argv[])
 
     std::ifstream file("inputfile.txt");
     std::string line;
-    
+
     while (std::getline(file, line))
     {
-       cmd.stdin() << line << std::endl;
+       cmd.in() << line << std::endl;
     }
     cmd.close();
-   
-    std::cout << cmd.stdout().rdbuf();
-    
+
+    std::cout << cmd.out().rdbuf();
+
     return 0;
 }
 ```
@@ -77,14 +77,14 @@ int
 main(int argc, char *argv[])
 {
     subprocess::popen sort_cmd("sort", {"-r"});
-    subprocess::popen cat_cmd("cat", {}, sort_cmd.stdin());
+    subprocess::popen cat_cmd("cat", {}, sort_cmd.in());
 
-    cat_cmd.stdin() << "a" << std::endl;
-    cat_cmd.stdin() << "b" << std::endl;
-    cat_cmd.stdin() << "c" << std::endl;
+    cat_cmd.in() << "a" << std::endl;
+    cat_cmd.in() << "b" << std::endl;
+    cat_cmd.in() << "c" << std::endl;
     cat_cmd.close();
 
-    std::cout << sort_cmd.stdout().rdbuf();
+    std::cout << sort_cmd.out().rdbuf();
 
     return 0;
 }
@@ -104,16 +104,16 @@ main(int argc, char *argv[])
 
     subprocess::popen cat_cmd("cat", {});
 
-    cat_cmd.stdin() << "a" << std::endl;
-    std::getline(cat_cmd.stdout(), buf);
+    cat_cmd.in() << "a" << std::endl;
+    std::getline(cat_cmd.out(), buf);
     std::cout << buf << std::endl;
 
-    cat_cmd.stdin() << "b" << std::endl;
-    std::getline(cat_cmd.stdout(), buf);
+    cat_cmd.in() << "b" << std::endl;
+    std::getline(cat_cmd.out(), buf);
     std::cout << buf << std::endl;
 
-    cat_cmd.stdin() << "c" << std::endl;
-    std::getline(cat_cmd.stdout(), buf);
+    cat_cmd.in() << "c" << std::endl;
+    std::getline(cat_cmd.out(), buf);
     std::cout << buf << std::endl;
 
     return 0;
